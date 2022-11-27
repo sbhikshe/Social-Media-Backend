@@ -16,8 +16,12 @@ module.exports = {
   },
 
   /* get a single user by the userId in the request */
+  /* populate to get the thoughts and friends */
+  /* https://mongoosejs.com/docs/api.html#query_Query-populate */
   getOneUser(req, res) {
     User.findOne({_id: req.params.userId})
+    .populate('thoughts')
+    .populate('friends')
     .then((results) => res.status(200).json(results))
     .catch((err) => res.status(500).json(err));
   },
