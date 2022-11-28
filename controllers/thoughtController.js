@@ -74,11 +74,11 @@ postReaction(req, res) {
 },
 
 /* remove a reaction to a thought - look up by thoughtId first */
-/* and reactionId included in the req body */
+/* and reactionId included in the req params */
 deleteReaction(req, res) {
   Thought.findOneAndUpdate(
     { _id: req.params.thoughtId },
-    { $pull: { reactions: { _id: req.params.reactionId } } },
+    { $pull: { reactions: { reactionId: req.params.reactionId } } },
     { runValidators: true, new : true })
   .then((results) => res.status(200).json(results)) 
   .catch((err) => res.status(500).json(err));
