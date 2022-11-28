@@ -18,7 +18,7 @@ postThought(req, res) {
     User.findOneAndUpdate(
       { username: req.body.username },
       { $addToSet: { thoughts: results._id}, },
-      { new: true }
+      { runValidators: true, new: true }
     )
     .then((results) => {
       res.status(200).json(results);
@@ -40,7 +40,7 @@ updateOneThought(req, res) {
   Thought.findOneAndUpdate(
     { _id: req.params.thoughtId }, 
     { $set: req.body },
-    { new: true })
+    { runValidators: true, new: true })
   .then((results) => res.status(200).json(results)) 
   .catch((err) => res.status(500).json(err));
 },
@@ -52,7 +52,7 @@ deleteOneThought(req, res) {
     User.findOneAndUpdate(
       { username: results.username },
       { $pull: { thoughts: results._id}, },
-      { new: true }
+      { runValidators: true, new: true }
     )
     .then((results) => {
       /* return user showing thought deleted from the thoughts list */
@@ -68,7 +68,7 @@ postReaction(req, res) {
   Thought.findOneAndUpdate(
     { _id: req.params.thoughtId },
     { $addToSet: { reactions: req.body } },
-    { new: true })
+    { runValidators: true, new: true })
   .then((results) => res.status(200).json(results)) 
   .catch((err) => res.status(500).json(err));
 },
@@ -78,8 +78,8 @@ postReaction(req, res) {
 deleteReaction(req, res) {
   Thought.findOneAndUpdate(
     { _id: req.params.thoughtId },
-    { $pull: { reactions: { _id: req.body.reactionId } } },
-    { new : true })
+    { $pull: { reactions: { _id: req.params.reactionId } } },
+    { runValidators: true, new : true })
   .then((results) => res.status(200).json(results)) 
   .catch((err) => res.status(500).json(err));
 }

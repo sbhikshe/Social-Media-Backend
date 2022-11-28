@@ -31,7 +31,7 @@ module.exports = {
     User.findOneAndUpdate(
       { _id: req.params.userId },
       { $set: req.body },
-      { new: true }
+      { runValidators: true, new: true }
     )
     .then((results) => res.status(200).json(results))
     .catch((err) => res.status(500).json(err));
@@ -57,7 +57,7 @@ module.exports = {
     User.findOneAndUpdate(
       {_id: req.params.userId},
       { $addToSet: { friends: req.params.friendId }},
-      { new: true })
+      { runValidators: true, new: true })
     .then((results) => res.status(200).json(results))
     .catch((err) => res.status(500).json(err));
   },
@@ -67,7 +67,7 @@ module.exports = {
     User.findOneAndUpdate(
       { _id: req.params.userId },
       { $pull: { friends: req.params.friendId }},
-      { new: true })
+      { runValidators: true, new: true })
     .then((results) => res.status(200).json(results))
     .catch((err) => res.status(500).json(err));
   }
